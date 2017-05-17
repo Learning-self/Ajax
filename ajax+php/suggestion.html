@@ -1,0 +1,41 @@
+<html>
+	<head>
+		<meta charset="UTF-8" > 
+		<title>Ajax与PHP:动态性更强的应用程序</title>
+		<script type="text/javascript">
+			function showSuggestion(str){
+				var xmlhttp = getXMLHttpRequest();
+				xmlhttp.onreadystatechange = function(){
+					if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+						document.getElementById('suggestion').innerHTML = '建议：'+xmlhttp.responseText;
+					}
+				}
+				xmlhttp.open('GET','suggestion.php?s='+str,true);
+				xmlhttp.send();
+			}
+			function getXMLHttpRequest(){
+				var xmlhttp;
+				try{
+					xmlhttp = new XMLHttpRequest();
+				}catch(err){
+					try{
+						xmlhttp = new ActiveXObject('Msxml2.XMLHTTP');
+					}catch(err){
+						try{
+							xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+						}catch(err){
+							xmlhttp = false;
+						}
+					}
+				}
+				return xmlhttp;
+			}
+		</script>
+	</head>
+	<body>
+		<div id="content">
+			<p>姓名：<input type="text" onkeyup="showSuggestion(this.value);" /></p>
+			<p id="suggestion">建议：</p>
+		</div>
+	</body>
+</html>

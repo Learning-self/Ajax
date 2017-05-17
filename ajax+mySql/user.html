@@ -1,0 +1,78 @@
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>ajax与MySQL的结合</title>
+	<style type="text/css">
+		div#content{
+			text-align: center;
+		}
+		div#info{
+			width: 400px;
+			margin: 20px auto;
+		}
+	</style>
+	<script type="text/javascript">
+		var xmlHttp;
+
+		function showUser(str)
+		{ 
+			xmlHttp=GetXmlHttpObject();
+		if (xmlHttp==null)
+		 {
+			 alert ("Browser does not support HTTP Request");
+			 return;
+		 }
+			var url="getuser.php";
+			url=url+"?id="+str;
+			url=url+"&sid="+Math.random();
+			xmlHttp.onreadystatechange=stateChanged ;
+			xmlHttp.open("GET",url,true);
+			xmlHttp.send(null);
+		}
+
+		function stateChanged() 
+		{ 
+		if (xmlHttp.readyState==4 || xmlHttp.readyState=="complete")
+		 { 
+		 	document.getElementById("info").innerHTML=xmlHttp.responseText ;
+		 } 
+		}
+
+		function GetXmlHttpObject()
+		{
+			var xmlHttp=null;
+		try
+		 {
+			 // Firefox, Opera 8.0+, Safari
+			 xmlHttp=new XMLHttpRequest();
+		 }
+		catch (e)
+		 {
+			 //Internet Explorer
+			 try
+			  {
+			  	xmlHttp=new ActiveXObject("Msxml2.XMLHTTP");
+			  }
+			 catch (e)
+			  {
+			  	xmlHttp=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+		 }
+		return xmlHttp;
+		}
+	</script>
+</head>
+<body>
+	<div id="content">
+		请选择一个姓名：
+		<select id="users" name="users" onchange="showUser(this.value);">
+			<option value="1">Peter Griffin</option>
+			<option value="2">Lois Griffin</option>
+			<option value="3">Glenn Quagmire</option>
+			<option value="4">Joseph Swanson</option>
+		</select>
+		
+		<div id="info"><b>User info will be listed here.</b></div>
+	</div>
+</body>
+</html>
